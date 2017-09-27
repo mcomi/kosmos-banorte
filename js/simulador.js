@@ -224,97 +224,8 @@ function NumeroALetras(num) {
   	// div donde coloco los formularios dependiendo del tipo de credito
   	const formCotizador = document.getElementById('form-cotizador')
   	/** casos tipos de credito **/
-  	if(type=='infonavit'){
-  		// cargo las opciones de infonavit
-  		formCotizador.innerHTML = infonavitForm;
-      const valorInmueble = document.getElementById('valorInmueble');
-      const montoCreditoCofi = document.getElementById('montoCredito');
-      const saldo_subcuenta = document.getElementById('saldo_subcuenta');
-      const pago_fijo_infonavit = document.getElementById('pago_fijo_infonavit');
-      const gastos_infonavit = document.getElementById('gastos_infonavit');
-      const monto_credito = document.getElementById('monto-credito');
-      const plazo = document.getElementById('plazo');
 
-      const inputsTypeInfonavit = document.querySelectorAll('.input-infonavit')
-
-      inputsTypeInfonavit.forEach(input => input.addEventListener('keyup', function(){
-        this.nextElementSibling.innerHTML = jsUcfirst(NumeroALetras(this.value).toLowerCase());
-      }));
-
-      valorInmueble.addEventListener('change',formatCurrency)
-      montoCredito.addEventListener('change',formatCurrency)
-      monto_credito.addEventListener('change', formatCurrency)
-      saldo_subcuenta.addEventListener('change',formatCurrency)
-      pago_fijo_infonavit.addEventListener('change',formatCurrency)
-      gastos_infonavit.addEventListener('change',formatCurrency)
-
-      valorInmueble.addEventListener('change',validetInfonavitInpus)
-      montoCredito.addEventListener('change',validetInfonavitInpus)
-      monto_credito.addEventListener('change', validetInfonavitInpus)
-      saldo_subcuenta.addEventListener('change',validetInfonavitInpus)
-      pago_fijo_infonavit.addEventListener('change',validetInfonavitInpus)
-      gastos_infonavit.addEventListener('change',validetInfonavitInpus)
-      plazo.addEventListener('change',validetInfonavitInpus)
-
-  		// inicilizo los eventos para escoger que tipo de credito infonavit
-  		const tiposInfonavit = document.querySelectorAll('.menu_credit_type input[type="radio"]');
-      let tipoActivo = null;
-  		tiposInfonavit.forEach(tipo => tipo.addEventListener('click', function () {
-        valorInmueble.value = ''
-        montoCredito.value = ''
-        monto_credito.value = ''
-        saldo_subcuenta.value = ''
-        pago_fijo_infonavit.value = ''
-        gastos_infonavit.value = ''
-        plazo.value = '10 años'
-        $('.input-success').html('')
-        divPropuestas.innerHTML = ''
-  			if(tipo.value==='apoyo-infonavit'){
-          tipoActivo = tipo.value
-          if($('.info-cofi').hasClass('hidden')) $('.info-cofi').removeClass('hidden');
-          if(!$('.cofinavit').hasClass('hidden')) $('.cofinavit').addClass('hidden');
-          $('.infonavit').removeClass('hidden');
-
-  			}
-        if(tipo.value==='cofinavit'){
-          tipoActivo = tipo.value
-          if($('.info-cofi').hasClass('hidden')) $('.info-cofi').removeClass('hidden');
-          if(!$('.infonavit').hasClass('hidden')) $('.infonavit').addClass('hidden');
-          $('.cofinavit').removeClass('hidden');
-  			}
-  		} ));
-
-      function validetInfonavitInpus () {
-          if(tipoActivo==='apoyo-infonavit'){
-            if(valorInmueble.value != '' && monto_credito.value != ''){
-              console.log('calculo propuesta infonavit');
-              const datos = {}
-              datos.valor_inmueble = valorInmueble.value
-              datos.monto_credito = monto_credito.value
-              datos.plazo = plazo.value
-              calculoYMuestroPropuestas(datos)
-            }
-          }
-          if(tipoActivo==='cofinavit'){
-            if(valorInmueble.value != '' && montoCredito.value != ''
-              && saldo_subcuenta.value!= '' && pago_fijo_infonavit.value != ''
-                && gastos_infonavit.value != ''){
-                  const datos = {
-                    'valor': valorInmueble.value,
-                    'monto': montoCredito.value,
-                    'saldo_subcuenta': saldo_subcuenta.value,
-                    'pago_fijo_infonavit': pago_fijo_infonavit.value,
-                    'gastos_infonavit': gastos_infonavit.value,
-                    'plazo': plazo.value
-                  }
-                  calculoYMuestroPropuestasCofinavit(datos)
-            }
-          }
-      }
-
-
-  	}
-  	if(type=='adquisicion' || type=='mejora' || type=='liquidez'){
+  	if(type=='adquisicion' || type=='mejora' || type=='liquidez' || type=='infonavit' || type=='mejora-liquidez'){
   		formCotizador.innerHTML = adquisicion_mejora_liquidez_apoyo_infonavitForm;
       const valorInmueble = document.getElementById('valorInmueble');
       const montoCredito = document.getElementById('monto-credito');
@@ -329,59 +240,6 @@ function NumeroALetras(num) {
 
       valorInmueble.addEventListener('change',formatCurrency)
       montoCredito.addEventListener('change',formatCurrency)
-  	}
-  	if(type=='mejora-liquidez'){
-  		formCotizador.innerHTML = mejora_liquidezForm;
-      const valorInmueble = document.getElementById('valor');
-      const montoCredito = document.getElementById('monto_solicitado');
-      const saldo = document.getElementById('saldo_restante');
-
-    	valorInmueble.addEventListener('keyup', function() {
-    		valorInmueble.nextElementSibling.innerHTML = jsUcfirst(NumeroALetras(valorInmueble.value).toLowerCase());
-    	})
-      montoCredito.addEventListener('keyup', function() {
-    		montoCredito.nextElementSibling.innerHTML = jsUcfirst(NumeroALetras(montoCredito.value).toLowerCase());
-    	})
-      saldo.addEventListener('keyup', function() {
-    		saldo.nextElementSibling.innerHTML = jsUcfirst(NumeroALetras(saldo.value).toLowerCase());
-    	})
-
-
-      valorInmueble.addEventListener('change',formatCurrency)
-      montoCredito.addEventListener('change',formatCurrency)
-      saldo.addEventListener('change',formatCurrency)
-
-      const inputs = $('form#formMejora input');
-
-    	const validateInputs = function (inputs) {
-    	  var validForm = true;
-
-    	  inputs.each(function(index) {
-    	    let input = $(this);
-
-    	    if (!input.val() || (input.type === "radio" && !input.is(':checked'))) {
-    	      console.log('No se han llenado todos los campos');
-    	      validForm = false;
-    	    }
-    	  });
-    	  return validForm;
-    	}
-
-      inputs.change(function() {
-
-      if (validateInputs(inputs)) {
-        console.log('se lleno la forma, calculo propuestas');
-    		const datos = {}; // obj donde mando agrupo los datos de la forma
-    		inputs.each(function() {
-    	    let input = $(this);
-
-    			datos[input.attr('name')] = input.val()
-    	  });
-
-    		// mando los datos para calcular y llenar el template de propuestas
-    		calculoYMuestroPropuestasML(datos)
-      }
-    });
   	}
 
 
@@ -402,8 +260,8 @@ function NumeroALetras(num) {
   				if (currentVal > input.attr('min')) {
   					newValue = currentVal - 1
   					year = newValue == 1
-  						? ' año'
-  						: ' años';
+  						? ' mes'
+  						: ' meses';
   					input.val(newValue + year).change();
   					document.getElementById('yearsSuccess').innerHTML = newValue + year;
   				}
@@ -416,8 +274,8 @@ function NumeroALetras(num) {
   				if (currentVal < input.attr('max')) {
   					newValue = currentVal + 1
   					year = newValue == 1
-  						? ' año'
-  						: ' años';
+  						? ' mes'
+  						: ' meses';
   					input.val(newValue + year).change();
   					document.getElementById('yearsSuccess').innerHTML = newValue + year;
   				}
@@ -460,7 +318,7 @@ function NumeroALetras(num) {
   	  });
 
   		// mando los datos para calcular y llenar el template de propuestas
-  		calculoYMuestroPropuestas(datos)
+  		// calculoYMuestroPropuestas(datos)
     }
   });
 
@@ -682,104 +540,18 @@ function NumeroALetras(num) {
 
   }
 
-  const infonavitForm = `
-  <div class="row">
 
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-
-			<label class="credit-form-title">Selecciona tu crédito Infonavit</label>
-			<div class="menu_credit_type">
-
-				<div class="col-xs-3">
-					<input type="radio" value="apoyo-infonavit" id="apoyo-infonavit" name="tipo-infonavit">
-					<label for="apoyo-infonavit">
-						<div class="icon-item">
-
-							<img src="img/icons/apoyo-infonavit.png" alt="">
-						</div>
-					</label>
-				</div>
-				<div class="col-xs-3">
-					<input type="radio" value="cofinavit" id="cofinavit" name="tipo-infonavit">
-					<label for="cofinavit">
-						<div class="icon-item">
-
-							<img src="img/icons/Cofinavit.png" alt="">
-						</div>
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col info-cofi hidden">
-			<label for="valorInmueble">Valor del inmueble</label>
-			<input type="tel" class="form-control validate input-infonavit" id="valorInmueble" placeholder="">
-			<span class="input-success"></span>
-			<span class="input-error"></span>
-		</div>
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col infonavit hidden">
-      <label for="monto-credito">Monto de Crédito</label>
-      <input type="tel" class="form-control validate input-infonavit" id="monto-credito" name="monto_credito" placeholder="">
-      <span class="input-success"></span>
-      <span class="input-error"></span>
-    </div>
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col cofinavit hidden">
-			<label for="montoCredito">Monto del Crédito Infonavit</label>
-			<input type="tel" class="form-control validate input-infonavit" id="montoCredito" placeholder="">
-			<span class="input-success"></span>
-			<span class="input-error"></span>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col cofinavit hidden">
-			<label for="saldo_subcuenta">Saldo en subcuenta de vivienda</label>
-			<input type="tel" class="form-control validate input-infonavit" id="saldo_subcuenta" placeholder="">
-			<span class="input-success"></span>
-			<span class="input-error"></span>
-		</div>
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col cofinavit hidden">
-			<label for="pago_fijo_infonavit">Pago fijo mensual Infonavit</label>
-			<input type="tel" class="form-control validate input-infonavit" id="pago_fijo_infonavit" placeholder="">
-			<span class="input-success"></span>
-			<span class="input-error"></span>
-		</div>
-		<div class="form-group col-xs-12 col-md-4 padding-dekstop-col cofinavit hidden">
-			<label for="gastos_infonavit">Gastos Infonavit</label>
-			<input type="tel" class="form-control validate input-infonavit" id="gastos_infonavit" placeholder="">
-			<span class="input-success"></span>
-			<span class="input-error"></span>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="form-group col-xs-12 col-md-4 info-cofi hidden">
-			<label for="valorInmueble">Plazo</label>
-			<div class="input-group add-on col-xs-12">
-
-				<div class="input-group-btn left">
-					<button class="btn btn-default btn-number" data-type="minus" data-field="quant[1]"><i class="glyphicon glyphicon-minus"></i></button>
-				</div>
-				<input id="plazo" name="quant[1]" value="10 años" min="1" max="25" type="text" class="form-control validate input-number" readonly>
-				<div class="input-group-btn right">
-					<button class="btn btn-default btn-number" data-type="plus" data-field="quant[1]"><i class="glyphicon glyphicon-plus"></i></button>
-				</div>
-			</div>
-			<span id="yearsSuccess" class="input-success"></span>
-			<span id="yearsError" class="input-error"></span>
-		</div>
-	</div>
-  `
 
   const adquisicion_mejora_liquidez_apoyo_infonavitForm = `
     <form action="#" method="post" id="formCredits">
     <div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-      <label for="valorInmueble">Valor del inmueble</label>
+      <label for="valorInmueble">Valor factura del auto</label>
       <input type="tel" class="form-control validate" id="valorInmueble" name="valor_inmueble" placeholder="">
       <span class="input-success"></span>
       <span class="input-error"></span>
     </div>
     <div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-      <label for="monto-credito">Monto de Crédito</label>
+      <label for="monto-credito">Enganche</label>
       <input type="tel" class="form-control validate" id="monto-credito" name="monto_credito" placeholder="">
       <span class="input-success"></span>
       <span class="input-error"></span>
@@ -792,7 +564,7 @@ function NumeroALetras(num) {
         <div class="input-group-btn left">
           <button class="btn btn-default btn-number" data-type="minus" data-field="plazo"><i class="glyphicon glyphicon-minus"></i></button>
         </div>
-        <input name="plazo" value="10 años" min="1" max="25" type="text" class="form-control validate input-number" readonly>
+        <input name="plazo" value="12 meses" min="1" max="25" type="text" class="form-control validate input-number" readonly>
         <div class="input-group-btn right">
           <button class="btn btn-default btn-number" data-type="plus" data-field="plazo"><i class="glyphicon glyphicon-plus"></i></button>
         </div>
@@ -802,44 +574,7 @@ function NumeroALetras(num) {
     </div>
   </form>
   `
-  const mejora_liquidezForm = `
-  <form action="#" method="post" id="formMejora">
-  <div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-    <label for="valor">Valor del inmueble</label>
-    <input type="tel" class="form-control validate" name="valor" id="valor" placeholder="">
-    <span class="input-success"></span>
-    <span class="input-error"></span>
-  </div>
 
-  <div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-    <label for="saldo_restante">Saldo restante del Crédito</label>
-    <input type="tel" class="form-control validate" name="saldo_restante" id="saldo_restante" placeholder="">
-    <span class="input-success"></span>
-    <span class="input-error"></span>
-  </div>
-  <div class="form-group col-xs-12 col-md-4 padding-dekstop-col">
-    <label for="monto_solicitado">Monto solicitado Liquidez</label>
-    <input type="tel" class="form-control validate" name="monto_solicitado" id="monto_solicitado" placeholder="">
-    <span class="input-success"></span>
-    <span class="input-error"></span>
-  </div>
-  <div class="form-group col-xs-12 col-md-4">
-    <label for="valorInmueble">Plazo</label>
-    <div class="input-group add-on col-xs-12">
-
-      <div class="input-group-btn left">
-        <button class="btn btn-default btn-number" data-type="minus" data-field="plazo"><i class="glyphicon glyphicon-minus"></i></button>
-      </div>
-      <input id="plazo" name="plazo" value="10 años" min="1" max="25" type="text" class="form-control validate input-number" readonly>
-      <div class="input-group-btn right">
-        <button class="btn btn-default btn-number" data-type="plus" data-field="plazo"><i class="glyphicon glyphicon-plus"></i></button>
-      </div>
-    </div>
-    <span id="yearsSuccess" class="input-success"></span>
-    <span id="yearsError" class="input-error"></span>
-  </div>
-</form>
-  `
 
   const propuestasAMLAI = function(a, b, c) {
     return `
