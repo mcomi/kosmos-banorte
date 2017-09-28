@@ -403,7 +403,7 @@ select.form-control {
 
 .btn-form {
   color: white;
-  background-color: #eb0029;
+  background-color: #42b2cc;
   padding: 2px 43px; }
 
 .btns-section {
@@ -414,8 +414,8 @@ select.form-control {
 
 .btn-blue-outline {
   background: #fff;
-  color: #eb0029;
-  border: 1px solid #eb0029; }
+  color: #42b2cc;
+  border: 1px solid #42b2cc; }
 
 .btn-red-outline {
   background: #fff;
@@ -441,7 +441,7 @@ a:hover {
 
 a:focus .doc-info,
 a:hover .doc-info {
-  border: 1px solid #eb0029; }
+  border: 1px solid #42b2cc; }
 
 .btn .caret {
   margin-left: 0;
@@ -454,7 +454,7 @@ a:hover .doc-info {
   border: 0; }
 
 .btn-group .btn-default:hover {
-  color: #eb0029;
+  color: #42b2cc;
   background-color: #fff; }
 
 .btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open > .dropdown-toggle.btn-default.focus, .open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover {
